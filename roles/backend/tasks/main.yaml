@@ -17,21 +17,28 @@
   ansible.builtin.user:
     name: expense
 
-- name: create app directory
-  ansible.builtin.file:
-    path: /app
-    state: directory
+- name: import tasks from common role
+  tags:
+  - deployment
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-pre-req
 
-- name: download the backend code
-  ansible.builtin.get_url:
-    url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
-    dest: /tmp/backend.zip
+# - name: create app directory
+#   ansible.builtin.file:
+#     path: /app
+#     state: directory
 
-- name: extract the code
-  ansible.builtin.unarchive:
-    src: /tmp/backend.zip # bydeafult ansible server thinks this is in ansible so I have to move src.
-    dest: /app
-    remote_src: yes # when we can use the remote_src it is telling already exists in remote server.
+# - name: download the backend code
+#   ansible.builtin.get_url:
+#     url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+#     dest: /tmp/backend.zip
+
+# - name: extract the code
+#   ansible.builtin.unarchive:
+#     src: /tmp/backend.zip # bydeafult ansible server thinks this is in ansible so I have to move src.
+#     dest: /app
+#     remote_src: yes # when we can use the remote_src it is telling already exists in remote server.
 
 - name: install the dependencies
   ansible.builtin.command: npm install
