@@ -1,5 +1,7 @@
 - name: configur backend server
   hosts: backend
-  become: yes
+  become: yes # here root access for ansible remote server
+  vars_files:
+  - /var/expense/credentials_mysql # ansible server
   roles:
   - backend
