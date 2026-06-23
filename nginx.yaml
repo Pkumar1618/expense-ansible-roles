@@ -1,0 +1,15 @@
+- name: nginx installing
+  hosts: all
+  become: yes
+  serial: 3 # when we can use serial it connected to every time 3 servers only. this is playlevel.
+  tasks:
+  - name: install nginx 
+    ansible.builtin.package: 
+      name: nginx
+      state: present
+  
+  - name: start the nginx
+    ansible.builtin.service:
+      name: nginx
+      state: started
+      enabled: yes
